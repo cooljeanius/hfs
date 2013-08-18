@@ -1,3 +1,7 @@
+/*
+ * main.c
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -16,9 +20,12 @@
 /*
  * Used to automatically run a corruption program after the
  * copying is done.  Only used during development.  Uncomment
- * to use.
+ * to use. Warning: dangerous!
  */
 //#define TESTINJECT	1
+#ifdef TESTINJECT
+#warning "Running the corruption program is for development only, as it is dangerous."
+#endif
 
 static const char *kAppleInternal = "/AppleInternal";
 static const char *kTestProgram = "HC-Inject-Errors";
@@ -106,7 +113,7 @@ OpenDevice(const char *devname)
 	}
 	/*
 	 * We only allow a character device (e.g., /dev/rdisk1s2)
-	 * If we're given a non-character device, we'll try to turn
+	 * If we are given a non-character device, we'll try to turn
 	 * into a character device assuming a name pattern of /dev/rdisk*
 	 */
 	if ((sb.st_mode & S_IFMT) == S_IFCHR) {
@@ -125,7 +132,7 @@ OpenDevice(const char *devname)
 	} else {
 		errx(kBadExit, "device name `%s' does not fit pattern", devname);
 	}
-	// Only use an exclusive open if we're not debugging.
+	// Only use an exclusive open if we are not debugging.
 	fd = open(dev.devname, O_RDWR | (debug ? 0 : O_EXLOCK));
 	if (fd == -1) {
 		err(kBadExit, "cannot open raw device %s", dev.devname);
@@ -292,7 +299,7 @@ AddJournal(VolumeObjects_t *vop)
 
 /*
  * Add the extents for the special files in the volume header.  Compare
- * them with the alternate volume header's versions, and if they're different,
+ * them with the alternate volume header's versions, and if they are different,
  * add that as well.
  */
 void
@@ -414,21 +421,22 @@ main(int ac, char **av)
 	}
 
 	/*
-	 * If we're given a destination, initialize it.
+	 * If we are given a destination, initialize it.
  	 */
 	if (dst) {
 		wrapper = InitSparseBundle(dst, devp);
 	}
 
 	if (wrapper) {
-		// See if we're picking up from a previous copy
+		// See if we are picking up from a previous copy
 		if (restart == 0) {
 			restart = wrapper->getprog(wrapper);
 			if (debug) {
 				fprintf(stderr, "auto-restarting at offset %lld\n", restart);
 			}
 		}
-		// "force" in this case means try even if the space estimate says we won't succeed.
+		/* "force" in this case means try even if the space estimate says that
+		 * we will not succeed. */
 		if (force == 0) {
 			struct statfs sfs;
 			if (statfs(dst, &sfs) != -1) {
@@ -440,8 +448,9 @@ main(int ac, char **av)
 		}
 
 		/*
-		 * If we're restarting, we need to compare the volume headers and see if
-		 * they're the same.  If they're not, we need to start from the beginning.
+		 * If we are restarting, we need to compare the volume headers and see
+		 * if they are the same.  If they are not, we need to start from the
+		 * beginning.
 		 */
 		if (restart) {
 			HFSPlusVolumeHeader priHeader, altHeader;
@@ -474,7 +483,7 @@ main(int ac, char **av)
 			err(retval, "CopyObjectsToDest failed");
 		} else {
 #if TESTINJECT
-			// Copy finished, let's see if we should run a test program
+			// Copy finished, let us see if we should run a test program
 			if (access(kAppleInternal, 0) != -1) {
 				char *home = getenv("HOME");
 				if (home) {

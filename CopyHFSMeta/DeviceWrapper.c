@@ -71,7 +71,8 @@ writeExtent(struct IOWrapper *context, DeviceInfo_t *devp, off_t start, off_t le
 }
 
 /*
- * Device files can't have progress information stored, so we don't do anything.
+ * Device files cannot have progress information stored, so we do not do
+ * anything.
  */
 static off_t
 GetProgress(struct IOWrapper *context)

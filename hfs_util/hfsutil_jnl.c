@@ -146,7 +146,7 @@ get_start_block(const char *file, uint32_t fs_block_size)
     }
 
     if (fstat(fd, &st) < 0) {
-	fprintf(stderr, "can't stat %s (%s)\n", file, strerror(errno));
+	fprintf(stderr, "cannot stat %s (%s)\n", file, strerror(errno));
 	close(fd);
 	return -1;
     }
@@ -191,7 +191,7 @@ get_start_block(const char *file, uint32_t fs_block_size)
 //
 // Get the embedded offset (if any) for an hfs+ volume.
 // This is pretty skanky that we have to do this but
-// that's life...
+// that is life...
 //
 #include <sys/disk.h>
 #include <hfs/hfs_format.h>
@@ -229,10 +229,10 @@ get_embedded_offset(char *devname)
     }
 
     if (S_ISCHR(st.st_mode) == 0) {
-	// hmmm, it's not the character special raw device so we
+	// hmmm, it is not the character special raw device so we
 	// should try to figure out the real device.
 	if (statfs(devname, &sfs) != 0) {
-	    fprintf(stderr, "Can't find out any info about the fs for path %s (%s)\n",
+	    fprintf(stderr, "Cannot find out any info about the fs for path %s (%s)\n",
 		devname, strerror(errno));
 	    ret = -1;
 	    goto out;
@@ -247,14 +247,14 @@ get_embedded_offset(char *devname)
 
     fd = open(devname, O_RDONLY);
     if (fd < 0) {
-	fprintf(stderr, "can't open: %s (%s)\n", devname, strerror(errno));
+	fprintf(stderr, "cannot open: %s (%s)\n", devname, strerror(errno));
 	ret = -1;
 	goto out;
     }
 
     /* Get the real physical block size. */
     if (ioctl(fd, DKIOCGETBLOCKSIZE, (caddr_t)&blksize) != 0) {
-	fprintf(stderr, "can't get the device block size (%s). assuming 512\n", strerror(errno));
+	fprintf(stderr, "cannot get the device block size (%s). assuming 512\n", strerror(errno));
 	blksize = 512;
 	ret = -1;
 	goto out;
@@ -356,12 +356,12 @@ DoMakeJournaled(char *volname, int jsize)
     off_t            start_block, embedded_offset;
 
     if (statfs(volname, &sfs) != 0) {
-	fprintf(stderr, "Can't stat volume %s (%s).\n", volname, strerror(errno));
+	fprintf(stderr, "Cannot stat volume %s (%s).\n", volname, strerror(errno));
 	return 10;
     }
 
-    // Make sure that we're HFS+.  First we check the fstypename.
-    // If that's ok then we try to create a symlink (which won't
+    // Make sure that we are HFS+.  First we check the fstypename.
+    // If that is ok then we try to create a symlink (which will not
     // work on plain hfs volumes but will work on hfs+ volumes).
     //
     if (strcmp(sfs.f_fstypename, "devfs") == 0) {
@@ -399,7 +399,7 @@ DoMakeJournaled(char *volname, int jsize)
     }
 
     if (chdir(volname) != 0) {
-	fprintf(stderr, "Can't locate volume %s to make it journaled (%s).\n",
+	fprintf(stderr, "Cannot locate volume %s to make it journaled (%s).\n",
 		volname, strerror(errno));
 	return 10;
     }
@@ -407,15 +407,15 @@ DoMakeJournaled(char *volname, int jsize)
 
     embedded_offset = get_embedded_offset(volname);
     if (embedded_offset < 0) {
-	fprintf(stderr, "Can't calculate the embedded offset (if any) for %s.\n", volname);
+	fprintf(stderr, "Cannot calculate the embedded offset (if any) for %s.\n", volname);
 	fprintf(stderr, "Journal creation failure.\n");
 	return 15;
     }
-    // printf("Embedded offset == 0x%llx\n", embedded_offset);
+    printf("Embedded offset == 0x%llx\n", embedded_offset);
 
     fd = open(journal_fname, O_CREAT|O_TRUNC|O_RDWR, 000);
     if (fd < 0) {
-	fprintf(stderr, "Can't create journal file on volume %s (%s)\n",
+	fprintf(stderr, "Cannot create journal file on volume %s (%s)\n",
 		volname, strerror(errno));
 	return 5;
     }
@@ -575,7 +575,7 @@ DoUnJournal(char *volname)
     char          jbuf[MAXPATHLEN];
 
     if (statfs(volname, &sfs) != 0) {
-	fprintf(stderr, "Can't stat volume %s (%s).\n", volname, strerror(errno));
+	fprintf(stderr, "Cannot stat volume %s (%s).\n", volname, strerror(errno));
 	return 10;
     }
 
@@ -590,7 +590,7 @@ DoUnJournal(char *volname)
     }
 
     if (chdir(volname) != 0) {
-	fprintf(stderr, "Can't locate volume %s to turn off journaling (%s).\n",
+	fprintf(stderr, "Cannot locate volume %s to turn off journaling (%s).\n",
 		volname, strerror(errno));
 	return 10;
     }
@@ -863,7 +863,7 @@ DoGetJournalInfo(char *volname)
 
 	    snprintf(rawdev, sizeof(rawdev), "/dev/r%s", &sfs.f_mntfromname[5]);
 
-	    // it's an external journal so get the info the
+	    // it is an external journal so get the info the
 	    // other way.
 	    return DoGetJournalInfo(&rawdev[0]);
     }
@@ -1010,7 +1010,7 @@ restart:
 		embeddedOffset += (u_int64_t)SWAP_BE16(mdbp->drEmbedExtent.startBlock) * (u_int64_t)SWAP_BE32(mdbp->drAlBlkSiz);
 
 		/*
-		 * If the embedded volume doesn't start on a block
+		 * If the embedded volume does not start on a block
 		 * boundary, then switch the device to a 512-byte
 		 * block size so everything will line up on a block
 		 * boundary.
@@ -1093,14 +1093,14 @@ SetJournalInFSState(const char *devname, int journal_in_fs)
 
 	fd = open(devname, O_RDWR);
 	if (fd < 0) {
-		printf("can't open: %s (%s)\n", devname, strerror(errno));
+		printf("cannot open: %s (%s)\n", devname, strerror(errno));
 		ret = -1;
 		goto out;
 	}
 
 	/* Get the real physical block size. */
 	if (ioctl(fd, DKIOCGETBLOCKSIZE, (caddr_t)&blksize) != 0) {
-		printf("can't get the device block size (%s). assuming 512\n", strerror(errno));
+		printf("cannot get the device block size (%s). assuming 512\n", strerror(errno));
 		blksize = 512;
 		ret = -1;
 		goto out;
@@ -1204,7 +1204,7 @@ SetJournalInFSState(const char *devname, int journal_in_fs)
 	    vhp = (HFSPlusVolumeHeader*) mdbp;
 	}
 
-	//printf("vol header attributes: 0x%x\n", SWAP_BE32(vhp->attributes));
+	printf("vol header attributes: 0x%x\n", SWAP_BE32(vhp->attributes));
 	if ((SWAP_BE32(vhp->attributes) & kHFSVolumeJournaledMask) == 0) {
 	    ret = 0;
 	    goto out;

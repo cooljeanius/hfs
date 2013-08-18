@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AC_CONFIG_SRCDIR([build/hfs.build/Release/CopyHFSMeta.build/DerivedSources/CopyHFSMeta_vers.c])
+AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -36,6 +36,7 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([ftruncate getmntinfo memmove memset mkdir strdup strerror strstr strtol strtoul strtoull])
 
-AC_CONFIG_FILES([hfs_japanese/Makefile
+AC_CONFIG_FILES([Makefile
+                 hfs_japanese/Makefile
                  hfs_japanese/hfs_japanese.kmodproj/Makefile])
 AC_OUTPUT

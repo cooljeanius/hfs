@@ -1,3 +1,7 @@
+/*
+ * hfsmeta.h
+ */
+
 #ifndef _HFS_META_H
 # define _HFS_META_H
 

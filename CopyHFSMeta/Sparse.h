@@ -1,3 +1,7 @@
+/*
+ * Sparse.h
+ */
+
 #ifndef _SPARSE_H
 # define _SPARSE_H
 

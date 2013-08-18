@@ -1,3 +1,7 @@
+/*
+ * ScanExtents.c
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -93,7 +97,7 @@ GetNode(DeviceInfo_t *devp, HFSPlusVolumeHeader *hp, int nodeNum, size_t nodeSiz
 		}
 		lba = lba * S32(hp->blockSize);
 		for (i = 0; i < S32(hp->blockSize) / devp->blockSize; i++) {
-//			printf("Trying to get block %lld\n", lba + i);
+  			printf("Trying to get block %lld\n", lba + i);
 			rv = GetBlock(devp, lba + (i * devp->blockSize), ptr);
 			if (rv == -1) {
 				warnx("Cannot read block %llu in extents overflow file", lba + i);

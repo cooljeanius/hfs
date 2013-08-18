@@ -15,7 +15,6 @@
 			dependencies = (
 				FDD9FA3C14A132F10043D4A9 /* PBXTargetDependency */,
 				FDD9FA3E14A132F20043D4A9 /* PBXTargetDependency */,
-				A5F745CA17C0B6BD000A9CDB /* PBXTargetDependency */,
 			);
 			name = hfs;
 			productName = hfs;
@@ -55,13 +54,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A5F745C917C0B6BD000A9CDB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A5F745C617C0B680000A9CDB /* hfs_japanese */;
-			remoteInfo = hfs_japanese;
-		};
 		FDD9FA3B14A132F10043D4A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
@@ -450,11 +442,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A5F745CA17C0B6BD000A9CDB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A5F745C617C0B680000A9CDB /* hfs_japanese */;
-			targetProxy = A5F745C917C0B6BD000A9CDB /* PBXContainerItemProxy */;
-		};
 		FDD9FA3C14A132F10043D4A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DD76FA90486AB0100D96B5E /* hfs_util */;

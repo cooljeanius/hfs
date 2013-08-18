@@ -346,8 +346,8 @@ static int load_encoding(CFStringEncoding encoding)
 
 	if (encodingName == NULL)
 	{
-		/* Couldn't figure out which encoding KEXT to load */
-		syslog(LOG_ERR, "Couldn't find name for encoding #%d", encoding);
+		/* Could not figure out which encoding KEXT to load */
+		syslog(LOG_ERR, "Could not find name for encoding #%d", encoding);
 		return FSUR_LOADERR;
 	}
 
@@ -372,8 +372,9 @@ static int load_encoding(CFStringEncoding encoding)
 		{
 			if (WEXITSTATUS(status) != 0)
 			{
-				/* kextload returned an error.  Too bad its output doesn't get logged. */
-				syslog(LOG_ERR, "Couldn't load HFS_Mac%s.kext", encodingName);
+				/* kextload returned an error.  Too bad its output does not get
+				 * logged. */
+				syslog(LOG_ERR, "Could not load HFS_Mac%s.kext", encodingName);
 				return FSUR_LOADERR;
 			}
 		}
@@ -421,7 +422,8 @@ int main (int argc, const char *argv[])
     snprintf(rawDeviceName, sizeof(rawDeviceName), "/dev/r%s", argv[2]);
     snprintf(blockDeviceName, sizeof(blockDeviceName), "/dev/%s", argv[2]);
 
-    /* call the appropriate routine to handle the given action argument after becoming root */
+    /* call the appropriate routine to handle the given action argument after
+	 * becoming root */
 
     switch( * actionPtr ) {
         case FSUC_PROBE:
@@ -468,10 +470,10 @@ int main (int argc, const char *argv[])
 			break;
 
 		case FSUC_JNLINFS_RAW:
-			// argv[2] has the device for the external journal.  however
-			// we don't need it so we ignore it and just pass argv[3]
-			// which is the hfs volume whose state we're going to change
-			//
+			/* argv[2] has the device for the external journal. However,
+			 * we do not need it so we ignore it and just pass argv[3]
+			 * which is the hfs volume whose state we're going to change
+			 */
 			result = SetJournalInFSState( argv[3], 1 );
 			break;
 
@@ -485,7 +487,8 @@ int main (int argc, const char *argv[])
 			break;
 
         default:
-            /* should never get here since ParseArgs should handle this situation */
+            /* should never get here since ParseArgs should handle this
+			 * situation */
             DoDisplayUsage( argv );
             result = FSUR_INVAL;
             break;
@@ -553,12 +556,13 @@ DoMount(char *deviceNamePtr, const char *rawName, const char *mountPointPtr,
 		}
 #endif
 	} else {
-		/* We've got a real volume UUID! */
+		/* We have got a real volume UUID! */
 #if TRACE_HFS_UTIL
 		fprintf(stderr, "hfs.util: DoMount: UUID = %08lX%08lX.\n", targetVolumeUUID.v.high, targetVolumeUUID.v.low);
 #endif
 		if ((result = OpenVolumeStatusDB(&vsdbhandle)) != 0) {
-			/* Can't even get access to the volume info db; assume permissions are OK. */
+			/* Cannot even get access to the volume info db; assume that
+			 * permissions are OK. */
 #if TRACE_HFS_UTIL
 			fprintf(stderr, "hfs.util: DoMount: OpenVolumeStatusDB returned %d; ignoring permissions.\n", result);
 #endif
@@ -749,7 +753,7 @@ DoProbe(char *rawDeviceNamePtr, char *blockDeviceNamePtr)
 	 * there is, and it is HFS, then we need to get the volume name via
 	 * getattrlist.
 	 *
-	 * NOTE: We're using bufPtr to hold a pointer to a path.
+	 * NOTE: We are using bufPtr to hold a pointer to a path.
 	 */
 	bufPtr = NULL;
 	result = GetHFSMountPoint(blockDeviceNamePtr, &bufPtr);

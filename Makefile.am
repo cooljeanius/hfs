@@ -1,0 +1,1 @@
+SUBDIRS = hfs_japanese

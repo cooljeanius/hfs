@@ -80,8 +80,8 @@ sync_volume(const char *path) {
 }
 
 /*
- * Read from a sparse bundle.  If the band file doesn't exist, or is shorter than
- * what we need to get from it, we pad out with 0's.
+ * Read from a sparse bundle.  If the band file does not exist, or is shorter
+ * than what we need to get from it, we pad out with 0's.
  */
 static ssize_t
 doSparseRead(struct IOWrapper *context, off_t offset, void *buffer, off_t len)
@@ -104,7 +104,7 @@ doSparseRead(struct IOWrapper *context, off_t offset, void *buffer, off_t len)
 		fd = open(bandName, O_RDONLY);
 		if (fd == -1) {
 			if (errno == ENOENT) {
-				// Doesn't exist, so we just write zeroes
+				// Does not exist, so we just write zeroes
 				free(bandName);
 				memset(buffer + nread, 0, amount);
 				nread += amount;
@@ -304,7 +304,7 @@ done:
 #define kProgressName "HC.progress.txt"
 
 /*
- * Get the progress state from a sparse bundle.  If it's not there, then
+ * Get the progress state from a sparse bundle.  If it is not there, then
  * no progress.
  */
 static off_t
@@ -330,7 +330,7 @@ done:
 
 /*
  * Write the progress information out.  This involves writing a file in
- * the sparse bundle with the amount -- in bytes -- we've written so far.
+ * the sparse bundle with the amount -- in bytes -- we have written so far.
  */
 static void
 SetProgress(struct IOWrapper *context, off_t prog)

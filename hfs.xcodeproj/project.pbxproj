@@ -34,6 +34,7 @@
 		A5F745AD17C0B633000A9CDB /* hfs_HD.openfs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A5F745A417C0B616000A9CDB /* hfs_HD.openfs.tiff */; };
 		A5F745AE17C0B633000A9CDB /* hfs_RHD.fs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A5F745A517C0B616000A9CDB /* hfs_RHD.fs.tiff */; };
 		A5F745AF17C0B633000A9CDB /* hfs_RHD.openfs.tiff in Resources */ = {isa = PBXBuildFile; fileRef = A5F745A617C0B616000A9CDB /* hfs_RHD.openfs.tiff */; };
+		A5F759D017C14822000A9CDB /* libsigsegv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F759CF17C14815000A9CDB /* libsigsegv.2.dylib */; };
 		C1B6FA0810CC0A0A00778D48 /* hfsutil_jnl.c in Sources */ = {isa = PBXBuildFile; fileRef = C1B6FA0610CC0A0A00778D48 /* hfsutil_jnl.c */; };
 		C1B6FA0910CC0A0A00778D48 /* hfsutil_main.c in Sources */ = {isa = PBXBuildFile; fileRef = C1B6FA0710CC0A0A00778D48 /* hfsutil_main.c */; };
 		C1B6FA3010CC0B9500778D48 /* hfs.util.8 in Copy man8 */ = {isa = PBXBuildFile; fileRef = C1B6FA2F10CC0B8A00778D48 /* hfs.util.8 */; };
@@ -132,10 +133,12 @@
 		A5F745C217C0B661000A9CDB /* Makefile.preamble */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.preamble; sourceTree = "<group>"; };
 		A5F745C317C0B661000A9CDB /* PB.project */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PB.project; sourceTree = "<group>"; };
 		A5F745D817C0B822000A9CDB /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = /System/Library/Frameworks/Kernel.framework; sourceTree = "<absolute>"; };
+		A5F759B817C146C6000A9CDB /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj.h; path = config.h; sourceTree = "<group>"; };
+		A5F759CF17C14815000A9CDB /* libsigsegv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsigsegv.2.dylib; path = /opt/local/lib/libsigsegv.2.dylib; sourceTree = "<absolute>"; };
 		C1B6FA0610CC0A0A00778D48 /* hfsutil_jnl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hfsutil_jnl.c; sourceTree = "<group>"; };
 		C1B6FA0710CC0A0A00778D48 /* hfsutil_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hfsutil_main.c; sourceTree = "<group>"; };
 		C1B6FA2210CC0AF400778D48 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
-		C1B6FA2F10CC0B8A00778D48 /* hfs.util.8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hfs.util.8; sourceTree = "<group>"; };
+		C1B6FA2F10CC0B8A00778D48 /* hfs.util.8 */ = {isa = PBXFileReference; explicitFileType = text.man; fileEncoding = 4; path = hfs.util.8; sourceTree = "<group>"; };
 		C1B6FD2B10CC0DB200778D48 /* hfs.util */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hfs.util; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD9FA2C14A132BF0043D4A9 /* CopyHFSMeta */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CopyHFSMeta; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD9FA4714A1343D0043D4A9 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
@@ -168,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5F759D017C14822000A9CDB /* libsigsegv.2.dylib in Frameworks */,
 				FDD9FA5C14A135840043D4A9 /* libz.dylib in Frameworks */,
 				FDD9FA5A14A135290043D4A9 /* CoreFoundation.framework in Frameworks */,
 			);
@@ -179,7 +183,6 @@
 		08FB7794FE84155DC02AAC07 /* hfs */ = {
 			isa = PBXGroup;
 			children = (
-				A5F745B517C0B661000A9CDB /* hfs_japanese */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				FDD9FA4014A133A50043D4A9 /* Frameworks */,
 				C1B6FD2C10CC0DB200778D48 /* Products */,
@@ -190,6 +193,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				A5F759B817C146C6000A9CDB /* config.h */,
+				A5F745B517C0B661000A9CDB /* hfs_japanese */,
 				FDD9FA4614A1343D0043D4A9 /* CopyHFSMeta */,
 				FDD9FA3F14A1335D0043D4A9 /* hfs_util */,
 			);
@@ -268,6 +273,7 @@
 		FDD9FA4014A133A50043D4A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A5F759CF17C14815000A9CDB /* libsigsegv.2.dylib */,
 				A5F745D817C0B822000A9CDB /* Kernel.framework */,
 				C1B6FA2210CC0AF400778D48 /* CoreFoundation.framework */,
 				FDD9FA5B14A135840043D4A9 /* libz.dylib */,
@@ -468,20 +474,41 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = "$(RC_ProjectSourceVersion)";
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_EXCEPTIONS = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_KERNEL_DEVELOPMENT = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PKGINFO_FILE = YES;
 				GENERATE_PROFILING_CODE = YES;
 				LD_GENERATE_MAP_FILE = YES;
+				OTHER_CFLAGS = "-DHAVE_CONFIG_H";
 				OTHER_LDFLAGS = (
 					"-read_only_relocs",
 					suppress,
@@ -489,6 +516,7 @@
 				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 				USE_HEADERMAP = NO;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -515,7 +543,12 @@
 		FDD9FA3414A132BF0043D4A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INSTALL_PATH = /System/Library/Filesystems/hfs.fs/Contents/Resources;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

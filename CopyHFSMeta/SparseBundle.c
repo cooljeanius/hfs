@@ -98,7 +98,7 @@ doSparseRead(struct IOWrapper *context, off_t offset, void *buffer, off_t len)
 		struct stat sbuf;
 		char *bandName;
 		ssize_t n;;
-		int fd;
+		int fd = 0;
 
 		asprintf(&bandName, "%s/bands/%x", ctx->pathname, bandNum);
 		fd = open(bandName, O_RDONLY);

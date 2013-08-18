@@ -1183,3 +1183,6 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
+m4_include([m4/EbgMacOSXOptions.m4])
+m4_include([m4/c-stack.m4])
+m4_include([m4/intlmacosx.m4])

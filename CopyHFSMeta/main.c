@@ -9,13 +9,24 @@
 #include <fcntl.h>
 #include <err.h>
 #include <errno.h>
+#ifdef HAVE_GETOPT_H
+#include <getopt.h>
+#endif
+#include <signal.h>
 #include <sys/stat.h>
 #include <sys/disk.h>
 #include <sys/sysctl.h>
 #include <hfs/hfs_mount.h>
+#include <zlib.h>
 #include "hfsmeta.h"
 #include "Data.h"
 #include "Sparse.h"
+#ifdef HAVE_CONFIG_H
+#include "../config.h"
+#endif
+#ifdef HAVE_SIGSEGV_H
+#include <sigsegv.h>
+#endif
 
 /*
  * Used to automatically run a corruption program after the
@@ -30,9 +41,9 @@
 static const char *kAppleInternal = "/AppleInternal";
 static const char *kTestProgram = "HC-Inject-Errors";
 
-int verbose;
-int debug;
-int printProgress;
+int verbose = 0;
+int debug = 0;
+int printProgress = 0;
 
 /*
  * Exit status values.  We use some errno values because
@@ -63,9 +74,9 @@ enum {
 static DeviceInfo_t *
 OpenDevice(const char *devname)
 {
-	char *rawname;
+	const char *rawname = devname; // TODO: use
 	DeviceInfo_t *retval = NULL;
-	int fd;
+	int fd = 0;
 	DeviceInfo_t dev = { 0 };
 	struct stat sb;
 	struct vfsconf vfc;
@@ -74,7 +85,8 @@ OpenDevice(const char *devname)
 		err(kBadExit, "cannot open device %s", devname);
 	}
 	/*
-	 * Attempt to flush the journal.  If it fails, we just warn, but don't abort.
+	 * Attempt to flush the journal.  If it fails, we just warn, but do
+	 * not abort.
 	 */
 	if (getvfsbyname("hfs", &vfc) == 0) {
 		int rv;
@@ -106,7 +118,7 @@ OpenDevice(const char *devname)
 			if (rv == -1) {
 				warn("cannot replay journal");
 			}
-			/* This is probably not necessary, but we couldn't prove it. */
+			/* This is probably not necessary, but we could not prove it. */
 			(void)fcntl(jfd, F_FULLFSYNC, 0);
 			close(jfd);
 		}
@@ -166,8 +178,8 @@ VolumeInfo(DeviceInfo_t *devp)
 	VolumeDescriptor_t *vdp = NULL, vd = { 0 };
 	ssize_t rv;
 
-	vd.priOffset = 1024;	// primary volume header is at 1024 bytes
-	vd.altOffset = devp->size - 1024;	// alternate header is 1024 bytes from the end
+	vd.priOffset = 1024; // primary volume header is at 1024 bytes
+	vd.altOffset = devp->size - 1024; // alt. header is 1024 bytes from the end
 
 	rv = GetBlock(devp, vd.priOffset, buffer);
 	if (rv == -1) {
@@ -344,28 +356,30 @@ AddFileExtents(VolumeObjects_t *vop)
 static void
 usage(const char *progname)
 {
-
 	errx(kBadExit, "usage: %s [-vdpS] [-g gatherFile] [-r <bytes>] <src device> <destination>", progname);
 }
 
-main(int ac, char **av);
-main(int ac, char **av)
+/* Main function and the prototype for it;
+ * changed variable names to conform with the C standard */
+int main (int argc, const char *argv[]);
+int main (int argc, const char *argv[])
 {
+	printf("Starting the CopyHFSMeta program... \n");
 	char *src = NULL;
 	char *dst = NULL;
 	DeviceInfo_t *devp = NULL;
 	VolumeDescriptor_t *vdp = NULL;
 	VolumeObjects_t *vop = NULL;
 	IOWrapper_t *wrapper = NULL;
-	int ch;
+	int ch = 0;
 	off_t restart = 0;
 	int printEstimate = 0;
-	const char *progname = av[0];
+	const char *progname = argv[0];
 	char *gather = NULL;
 	int force = 0;
-	int retval = kGoodExit;
+	int retval = kGoodExit; // i.e. "0" (see enum above)
 
-	while ((ch = getopt(ac, av, "fvdg:Spr:")) != -1) {
+	while ((ch = getopt(argc, argv, "fvdg:Spr:")) != -1) {
 		switch (ch) {
 		case 'v':	verbose++; break;
 		case 'd':	debug++; verbose++; break;
@@ -378,15 +392,16 @@ main(int ac, char **av)
 		}
 	}
 
-	ac -= optind;
-	av += optind;
+	argc -= optind;
+	argv += optind;
 
-	if (ac == 0 || ac > 2) {
+	if (argc == 0 || argc > 2) {
 		usage(progname);
 	}
-	src = av[0];
-	if (ac == 2)
-		dst = av[1];
+	src = argv[0];
+	if (argc == 2) {
+		dst = argv[1];
+	}
 
 	// Start by opening the input device
 	devp = OpenDevice(src);
@@ -408,8 +423,9 @@ main(int ac, char **av)
 	AddJournal(vop);
 	AddFileExtents(vop);
 
-	if (debug)
+	if (debug) {
 		PrintVolumeObject(vop);
+	}
 
 	if (printEstimate) {
 		printf("Estimate %llu\n", vop->byteCount);
@@ -488,17 +504,27 @@ main(int ac, char **av)
 				char *home = getenv("HOME");
 				if (home) {
 					char *pName;
-					pName = malloc(strlen(home) + strlen(kTestProgram) + 2);	// '/' and NUL
+					pName = malloc(strlen(home) + strlen(kTestProgram) + 2); // '/' and NUL
 					if (pName) {
 						sprintf(pName, "%s/%s", home, kTestProgram);
 						execl(pName, kTestProgram, dst, NULL);
 					}
 				}
 			}
+#else
+			if (access(kAppleInternal, 0) != -1) {
+				printf("Not running test program %s.", kTestProgram);
+			} else {
+				printf("Cannot access %s.", kAppleInternal);
+			}
 #endif
 		}
 	}
 
-	return retval;
+	if (retval) {
+		return retval;
+	} else {
+		return 0;
+	}
 }
 

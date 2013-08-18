@@ -76,11 +76,7 @@ WriteGatheredData(const char *pathname, VolumeObjects_t *vop)
 	struct HFSInfoHeader hdr = { 0 };
 	HFSDataObject *objs = NULL, *op;
 	ExtentList_t *ep;
-	int i = 0;
-	i++;
-	if (i == 1) { // use "i" here just to silence warnings
-		printf(".");
-	}
+    /* Declaring "i" is not necessary here, as it is done later */
 
 	hdr.version = S32(kHFSInfoHeaderVersion);
 	hdr.deviceBlockSize = S32((uint32_t)vop->devp->blockSize);
@@ -125,7 +121,7 @@ WriteGatheredData(const char *pathname, VolumeObjects_t *vop)
 	for (ep = vop->list;
 	     ep;
 	     ep = ep->next) {
-		int i;
+		int i = 0;
 		for (i = 0; i < ep->count; i++) {
 			if (verbose)
 				fprintf(stderr, "Writing extent <%lld, %lld>\n", ep->extents[i].base, ep->extents[i].length);

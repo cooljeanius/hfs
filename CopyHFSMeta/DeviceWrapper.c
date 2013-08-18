@@ -32,7 +32,7 @@ struct DeviceWrapperContext {
 static int
 noClean(struct IOWrapper *ctx)
 {
-	// Conceivably, we could erase the entire device
+	// Conceivably, we could erase the entire device (that would be bad)
 	return 0;
 }
 
@@ -79,6 +79,7 @@ GetProgress(struct IOWrapper *context)
 {
 	return 0;
 }
+
 static void
 SetProgress(struct IOWrapper *context, off_t progr)
 {

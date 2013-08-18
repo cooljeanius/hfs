@@ -621,13 +621,28 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
+ac_func_list=
+ac_header_list=
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+host_os
+host_vendor
+host_cpu
+host
+build_os
+build_vendor
+build_cpu
+build
 EGREP
 GREP
 CPP
+HAVE_FRAMEWORK_IOKIT
+HAVE_FRAMEWORK_COREFOUNDATION
+INTL_MACOSX_LIBS
+XCODEBUILD
+XCODE_SELECT
 OBJCXXCPP
 am__fastdepOBJCXX_FALSE
 am__fastdepOBJCXX_TRUE
@@ -659,6 +674,9 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
+UNAME
+SW_VERS
+DEFAULTS
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -733,6 +751,7 @@ enable_option_checking
 enable_silent_rules
 enable_maintainer_mode
 enable_dependency_tracking
+with_developer_dir
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1350,6 +1369,10 @@ Program names:
   --program-prefix=PREFIX            prepend PREFIX to installed program names
   --program-suffix=SUFFIX            append SUFFIX to installed program names
   --program-transform-name=PROGRAM   run sed PROGRAM on installed program names
+
+System types:
+  --build=BUILD     configure for building on BUILD [guessed]
+  --host=HOST       cross-compile to build programs to run on HOST [BUILD]
 _ACEOF
 fi
 
@@ -1372,6 +1395,12 @@ Optional Features:
                           do not reject slow dependency extractors
   --disable-dependency-tracking
                           speeds up one-time build
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-developer-dir=PATH
+                          use PATH as location for Xcode developer tools
 
 Some influential environment variables:
   CC          C compiler command
@@ -2145,6 +2174,52 @@ $as_echo "$ac_res" >&6; }
 
 } # ac_fn_c_find_uintX_t
 
+# ac_fn_c_check_decl LINENO SYMBOL VAR INCLUDES
+# ---------------------------------------------
+# Tests whether SYMBOL is declared in INCLUDES, setting cache variable VAR
+# accordingly.
+ac_fn_c_check_decl ()
+{
+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
+  as_decl_name=`echo $2|sed 's/ *(.*//'`
+  as_decl_use=`echo $2|sed -e 's/(/((/' -e 's/)/) 0&/' -e 's/,/) 0& (/g'`
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $as_decl_name is declared" >&5
+$as_echo_n "checking whether $as_decl_name is declared... " >&6; }
+if eval \${$3+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+$4
+int
+main ()
+{
+#ifndef $as_decl_name
+#ifdef __cplusplus
+  (void) $as_decl_use;
+#else
+  (void) $as_decl_name;
+#endif
+#endif
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  eval "$3=yes"
+else
+  eval "$3=no"
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+eval ac_res=\$$3
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
+
+} # ac_fn_c_check_decl
+
 # ac_fn_c_check_func LINENO FUNC VAR
 # ----------------------------------
 # Tests whether FUNC exists, setting the cache variable VAR accordingly
@@ -2495,6 +2570,8 @@ $as_echo "$as_me: creating cache $cache_file" >&6;}
   >$cache_file
 fi
 
+as_fn_append ac_func_list " setrlimit"
+as_fn_append ac_header_list " ucontext.h"
 # Check that the precious variables saved in the cache have kept the same
 # value.
 ac_cache_corrupted=false
@@ -2565,6 +2642,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 ac_config_headers="$ac_config_headers config.h"
+
 
 am__api_version='1.14'
 
@@ -3280,6 +3358,176 @@ fi
 
   MAINT=$MAINTAINER_MODE_TRUE
 
+
+
+    if test "x$DEFAULTS" = "x"; then
+        # Extract the first word of "defaults", so it can be a program name with args.
+set dummy defaults; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_DEFAULTS+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $DEFAULTS in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_DEFAULTS="$DEFAULTS" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_DEFAULTS="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+DEFAULTS=$ac_cv_path_DEFAULTS
+if test -n "$DEFAULTS"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DEFAULTS" >&5
+$as_echo "$DEFAULTS" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    fi
+    # Extract the first word of "sw_vers", so it can be a program name with args.
+set dummy sw_vers; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_SW_VERS+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $SW_VERS in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_SW_VERS="$SW_VERS" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_SW_VERS="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+SW_VERS=$ac_cv_path_SW_VERS
+if test -n "$SW_VERS"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SW_VERS" >&5
+$as_echo "$SW_VERS" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    # Extract the first word of "uname", so it can be a program name with args.
+set dummy uname; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_UNAME+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $UNAME in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_UNAME="$UNAME" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_UNAME="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+UNAME=$ac_cv_path_UNAME
+if test -n "$UNAME"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $UNAME" >&5
+$as_echo "$UNAME" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking how to determine Mac OS X Version" >&5
+$as_echo_n "checking how to determine Mac OS X Version... " >&6; }
+    if test -e $HOME/Library/Preferences/com.apple.loginwindow.plist -a "x$DEFAULTS" != "x"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: using \"defaults\"" >&5
+$as_echo "using \"defaults\"" >&6; }
+    	macosx_version="`defaults read loginwindow SystemVersionStampAsString`"
+    elif test "x$SW_VERS" != "x"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: using \"sw_vers\"" >&5
+$as_echo "using \"sw_vers\"" >&6; }
+        macosx_version="`sw_vers -productVersion`"
+    elif test "x$UNAME" != "x"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: using \"uname\"" >&5
+$as_echo "using \"uname\"" >&6; }
+        darwin_version="`uname -r | cut -d. -f1`"
+        macosx_version=10.$(($darwin_version - 4))
+    else
+        as_fn_error $? "none of the standard ways of determining the Mac OS X Version are available" "$LINENO" 5
+    fi
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking Mac OS X Version" >&5
+$as_echo_n "checking Mac OS X Version... " >&6; }
+    case $macosx_version in
+         10.8*)
+              { $as_echo "$as_me:${as_lineno-$LINENO}: result: Mac OS X 10.8 - Mountain Lion." >&5
+$as_echo "Mac OS X 10.8 - Mountain Lion." >&6; }
+         ;;
+         10.7*)
+              { $as_echo "$as_me:${as_lineno-$LINENO}: result: Mac OS X 10.7 - Lion." >&5
+$as_echo "Mac OS X 10.7 - Lion." >&6; }
+         ;;
+         10.6*)
+              { $as_echo "$as_me:${as_lineno-$LINENO}: result: Mac OS X 10.6 - Snow Leopard." >&5
+$as_echo "Mac OS X 10.6 - Snow Leopard." >&6; }
+         ;;
+         *10.5*)
+              { $as_echo "$as_me:${as_lineno-$LINENO}: result: Mac OS X 10.5 - Leopard." >&5
+$as_echo "Mac OS X 10.5 - Leopard." >&6; }
+         ;;
+         *10.4*)
+              { $as_echo "$as_me:${as_lineno-$LINENO}: result: Mac OS X 10.4 - Tiger." >&5
+$as_echo "Mac OS X 10.4 - Tiger." >&6; }
+         ;;
+         *)
+              { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: While it might be better to build this on an older version of OS X, such as your $macosx_version, as fewer things are deprecated there, it is still harder to find computers running older versions of OS X these days, so it might be harder to support..." >&5
+$as_echo "$as_me: WARNING: While it might be better to build this on an older version of OS X, such as your $macosx_version, as fewer things are deprecated there, it is still harder to find computers running older versions of OS X these days, so it might be harder to support..." >&2;}
+         ;;
+	 esac
 
 
 # Checks for programs.
@@ -4322,6 +4570,183 @@ else
 fi
 
 
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $CC option to accept ISO C99" >&5
+$as_echo_n "checking for $CC option to accept ISO C99... " >&6; }
+if ${ac_cv_prog_cc_c99+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_prog_cc_c99=no
+ac_save_CC=$CC
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <wchar.h>
+#include <stdio.h>
+
+// Check varargs macros.  These examples are taken from C99 6.10.3.5.
+#define debug(...) fprintf (stderr, __VA_ARGS__)
+#define showlist(...) puts (#__VA_ARGS__)
+#define report(test,...) ((test) ? puts (#test) : printf (__VA_ARGS__))
+static void
+test_varargs_macros (void)
+{
+  int x = 1234;
+  int y = 5678;
+  debug ("Flag");
+  debug ("X = %d\n", x);
+  showlist (The first, second, and third items.);
+  report (x>y, "x is %d but y is %d", x, y);
+}
+
+// Check long long types.
+#define BIG64 18446744073709551615ull
+#define BIG32 4294967295ul
+#define BIG_OK (BIG64 / BIG32 == 4294967297ull && BIG64 % BIG32 == 0)
+#if !BIG_OK
+  your preprocessor is broken;
+#endif
+#if BIG_OK
+#else
+  your preprocessor is broken;
+#endif
+static long long int bignum = -9223372036854775807LL;
+static unsigned long long int ubignum = BIG64;
+
+struct incomplete_array
+{
+  int datasize;
+  double data[];
+};
+
+struct named_init {
+  int number;
+  const wchar_t *name;
+  double average;
+};
+
+typedef const char *ccp;
+
+static inline int
+test_restrict (ccp restrict text)
+{
+  // See if C++-style comments work.
+  // Iterate through items via the restricted pointer.
+  // Also check for declarations in for loops.
+  for (unsigned int i = 0; *(text+i) != '\0'; ++i)
+    continue;
+  return 0;
+}
+
+// Check varargs and va_copy.
+static void
+test_varargs (const char *format, ...)
+{
+  va_list args;
+  va_start (args, format);
+  va_list args_copy;
+  va_copy (args_copy, args);
+
+  const char *str;
+  int number;
+  float fnumber;
+
+  while (*format)
+    {
+      switch (*format++)
+	{
+	case 's': // string
+	  str = va_arg (args_copy, const char *);
+	  break;
+	case 'd': // int
+	  number = va_arg (args_copy, int);
+	  break;
+	case 'f': // float
+	  fnumber = va_arg (args_copy, double);
+	  break;
+	default:
+	  break;
+	}
+    }
+  va_end (args_copy);
+  va_end (args);
+}
+
+int
+main ()
+{
+
+  // Check bool.
+  _Bool success = false;
+
+  // Check restrict.
+  if (test_restrict ("String literal") == 0)
+    success = true;
+  char *restrict newvar = "Another string";
+
+  // Check varargs.
+  test_varargs ("s, d' f .", "string", 65, 34.234);
+  test_varargs_macros ();
+
+  // Check flexible array members.
+  struct incomplete_array *ia =
+    malloc (sizeof (struct incomplete_array) + (sizeof (double) * 10));
+  ia->datasize = 10;
+  for (int i = 0; i < ia->datasize; ++i)
+    ia->data[i] = i * 1.234;
+
+  // Check named initializers.
+  struct named_init ni = {
+    .number = 34,
+    .name = L"Test wide string",
+    .average = 543.34343,
+  };
+
+  ni.number = 58;
+
+  int dynamic_array[ni.number];
+  dynamic_array[ni.number - 1] = 543;
+
+  // work around unused variable warnings
+  return (!success || bignum == 0LL || ubignum == 0uLL || newvar[0] == 'x'
+	  || dynamic_array[ni.number - 1] != 543);
+
+  ;
+  return 0;
+}
+_ACEOF
+for ac_arg in '' -std=gnu99 -std=c99 -c99 -AC99 -D_STDC_C99= -qlanglvl=extc99
+do
+  CC="$ac_save_CC $ac_arg"
+  if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_prog_cc_c99=$ac_arg
+fi
+rm -f core conftest.err conftest.$ac_objext
+  test "x$ac_cv_prog_cc_c99" != "xno" && break
+done
+rm -f conftest.$ac_ext
+CC=$ac_save_CC
+
+fi
+# AC_CACHE_VAL
+case "x$ac_cv_prog_cc_c99" in
+  x)
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: none needed" >&5
+$as_echo "none needed" >&6; } ;;
+  xno)
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: unsupported" >&5
+$as_echo "unsupported" >&6; } ;;
+  *)
+    CC="$CC $ac_cv_prog_cc_c99"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_cc_c99" >&5
+$as_echo "$ac_cv_prog_cc_c99" >&6; } ;;
+esac
+if test "x$ac_cv_prog_cc_c99" != xno; then :
+
+fi
+
+
 ac_ext=m
 ac_cpp='$OBJCPP $CPPFLAGS'
 ac_compile='$OBJC -c $OBJCFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -5344,7 +5769,181 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking --with-developer-dir argument" >&5
+$as_echo_n "checking --with-developer-dir argument... " >&6; }
+
+# Check whether --with-developer-dir was given.
+if test "${with_developer_dir+set}" = set; then :
+  withval=$with_developer_dir; DEVELOPER_DIR="$withval"; { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DEVELOPER_DIR" >&5
+$as_echo "$DEVELOPER_DIR" >&6; }
+else
+  DEVELOPER_DIR=""; { $as_echo "$as_me:${as_lineno-$LINENO}: result: not present" >&5
+$as_echo "not present" >&6; }
+fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if DEVELOPER_DIR environment variable is already set" >&5
+$as_echo_n "checking if DEVELOPER_DIR environment variable is already set... " >&6; }
+if test "x$DEVELOPER_DIR" = "x"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+  # Extract the first word of "xcode-select", so it can be a program name with args.
+set dummy xcode-select; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_XCODE_SELECT+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $XCODE_SELECT in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_XCODE_SELECT="$XCODE_SELECT" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_XCODE_SELECT="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+XCODE_SELECT=$ac_cv_path_XCODE_SELECT
+if test -n "$XCODE_SELECT"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XCODE_SELECT" >&5
+$as_echo "$XCODE_SELECT" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "x$XCODE_SELECT" != "x"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for xcode-select version" >&5
+$as_echo_n "checking for xcode-select version... " >&6; }
+    XCODE_SELECT_VERSION=`xcode-select --version`
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XCODE_SELECT_VERSION" >&5
+$as_echo "$XCODE_SELECT_VERSION" >&6; }
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for developer dir using xcode-select" >&5
+$as_echo_n "checking for developer dir using xcode-select... " >&6; }
+    DEVELOPER_DIR=`$XCODE_SELECT -print-path`
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DEVELOPER_DIR" >&5
+$as_echo "$DEVELOPER_DIR" >&6; }
+  else
+    DEVELOPER_DIR=/Developer
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DEVELOPER_DIR" >&5
+$as_echo "$DEVELOPER_DIR" >&6; }
+  fi
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DEVELOPER_DIR" >&5
+$as_echo "$DEVELOPER_DIR" >&6; }
+fi
+
+
+# Extract the first word of "xcodebuild", so it can be a program name with args.
+set dummy xcodebuild; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_XCODEBUILD+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $XCODEBUILD in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_XCODEBUILD="$XCODEBUILD" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_XCODEBUILD="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+XCODEBUILD=$ac_cv_path_XCODEBUILD
+if test -n "$XCODEBUILD"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XCODEBUILD" >&5
+$as_echo "$XCODEBUILD" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "x$XCODEBUILD" != "x"; then
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Xcode version" >&5
+$as_echo_n "checking for Xcode version... " >&6; }
+      XCODEBUILD_VERSION=`xcodebuild -version`
+      { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XCODEBUILD_VERSION" >&5
+$as_echo "$XCODEBUILD_VERSION" >&6; }
+  fi
+
+
 # Checks for libraries.
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for sigsegv_dispatch in -lsigsegv" >&5
+$as_echo_n "checking for sigsegv_dispatch in -lsigsegv... " >&6; }
+if ${ac_cv_lib_sigsegv_sigsegv_dispatch+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lsigsegv  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char sigsegv_dispatch ();
+int
+main ()
+{
+return sigsegv_dispatch ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_sigsegv_sigsegv_dispatch=yes
+else
+  ac_cv_lib_sigsegv_sigsegv_dispatch=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_sigsegv_sigsegv_dispatch" >&5
+$as_echo "$ac_cv_lib_sigsegv_sigsegv_dispatch" >&6; }
+if test "x$ac_cv_lib_sigsegv_sigsegv_dispatch" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSIGSEGV 1
+_ACEOF
+
+  LIBS="-lsigsegv $LIBS"
+
+fi
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gzwrite in -lz" >&5
 $as_echo_n "checking for gzwrite in -lz... " >&6; }
@@ -5390,6 +5989,197 @@ _ACEOF
   LIBS="-lz $LIBS"
 
 fi
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for CFPreferencesCopyAppValue" >&5
+$as_echo_n "checking for CFPreferencesCopyAppValue... " >&6; }
+if ${gt_cv_func_CFPreferencesCopyAppValue+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  gt_save_LIBS="$LIBS"
+     LIBS="$LIBS -Wl,-framework -Wl,CoreFoundation"
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <CoreFoundation/CFPreferences.h>
+int
+main ()
+{
+CFPreferencesCopyAppValue(NULL, NULL)
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gt_cv_func_CFPreferencesCopyAppValue=yes
+else
+  gt_cv_func_CFPreferencesCopyAppValue=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+     LIBS="$gt_save_LIBS"
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gt_cv_func_CFPreferencesCopyAppValue" >&5
+$as_echo "$gt_cv_func_CFPreferencesCopyAppValue" >&6; }
+  if test $gt_cv_func_CFPreferencesCopyAppValue = yes; then
+
+$as_echo "#define HAVE_CFPREFERENCESCOPYAPPVALUE 1" >>confdefs.h
+
+  fi
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for CFLocaleCopyCurrent" >&5
+$as_echo_n "checking for CFLocaleCopyCurrent... " >&6; }
+if ${gt_cv_func_CFLocaleCopyCurrent+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  gt_save_LIBS="$LIBS"
+     LIBS="$LIBS -Wl,-framework -Wl,CoreFoundation"
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <CoreFoundation/CFLocale.h>
+int
+main ()
+{
+CFLocaleCopyCurrent();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  gt_cv_func_CFLocaleCopyCurrent=yes
+else
+  gt_cv_func_CFLocaleCopyCurrent=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+     LIBS="$gt_save_LIBS"
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gt_cv_func_CFLocaleCopyCurrent" >&5
+$as_echo "$gt_cv_func_CFLocaleCopyCurrent" >&6; }
+  if test $gt_cv_func_CFLocaleCopyCurrent = yes; then
+
+$as_echo "#define HAVE_CFLOCALECOPYCURRENT 1" >>confdefs.h
+
+  fi
+  INTL_MACOSX_LIBS=
+  if test $gt_cv_func_CFPreferencesCopyAppValue = yes || test $gt_cv_func_CFLocaleCopyCurrent = yes; then
+    INTL_MACOSX_LIBS="-Wl,-framework -Wl,CoreFoundation"
+  fi
+
+
+
+	FRAMEWORK_LIBS="-framework CoreFoundation"
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for CoreFoundation framework" >&5
+$as_echo_n "checking for CoreFoundation framework... " >&6; }
+
+	if ${mp_cv_have_framework_corefoundation+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+		ac_save_LIBS="$LIBS"
+		LIBS="$FRAMEWORK_LIBS $LIBS"
+
+		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+					#include <CoreFoundation/CoreFoundation.h>
+
+int
+main ()
+{
+
+					CFURLRef url = CFURLCreateWithFileSystemPath(NULL, CFSTR("/testing"), kCFURLPOSIXPathStyle, 1);
+					CFArrayRef bundles = CFBundleCreateBundlesFromDirectory(NULL, url, CFSTR("pkg"));
+
+  ;
+  return 0;
+}
+
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+				mp_cv_have_framework_corefoundation="yes"
+
+else
+
+				mp_cv_have_framework_corefoundation="no"
+
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+		LIBS="$ac_save_LIBS"
+
+fi
+
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${mp_cv_have_framework_corefoundation}" >&5
+$as_echo "${mp_cv_have_framework_corefoundation}" >&6; }
+
+	if test x"${mp_cv_have_framework_corefoundation}" = "xyes"; then
+
+$as_echo "#define HAVE_FRAMEWORK_COREFOUNDATION /**/" >>confdefs.h
+
+	fi
+
+
+
+
+	FRAMEWORK_LIBS="-framework IOKit"
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for IOKit framework" >&5
+$as_echo_n "checking for IOKit framework... " >&6; }
+
+	if ${mp_cv_have_framework_iokit+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+		ac_save_LIBS="$LIBS"
+		LIBS="$FRAMEWORK_LIBS $LIBS"
+
+		cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+					#include <IOKit/IOKitLib.h>
+
+int
+main ()
+{
+
+					IOCreateReceivePort(0, NULL);
+					IORegisterForSystemPower(0, NULL, NULL, NULL);
+
+  ;
+  return 0;
+}
+
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+				mp_cv_have_framework_iokit="yes"
+
+else
+
+				mp_cv_have_framework_iokit="no"
+
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+		LIBS="$ac_save_LIBS"
+
+fi
+
+
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${mp_cv_have_framework_iokit}" >&5
+$as_echo "${mp_cv_have_framework_iokit}" >&6; }
+
+	if test x"${mp_cv_have_framework_iokit}" = "xyes"; then
+
+$as_echo "#define HAVE_FRAMEWORK_IOKIT /**/" >>confdefs.h
+
+	fi
+
+
 
 
 # Checks for header files.
@@ -5791,13 +6581,16 @@ done
 
 
 for ac_header in architecture/byte_order.h CommonCrypto/CommonDigest.h \
-CoreFoundation/CoreFoundation.h CoreFoundation/CFString.h ctype.h \
-err.h errno.h fcntl.h hfs/hfs_format.h hfs/hfs_mount.h libgen.h \
-libkern/OSByteOrder.h machine/endian.h pwd.h removefile.h stdio.h \
-System/hfs/hfs_fsctl.h System/sys/fsctl.h System/uuid/uuid.h \
-System/uuid/namespace.h sys/attr.h sys/disk.h sys/fcntl.h sys/ioctl.h \
-sys/loadable_fs.h sys/mount.h sys/param.h sys/resource.h sys/sysctl.h \
-sys/time.h sys/ucred.h sys/vmmeter.h sys/wait.h syslog.h zlib.h
+CoreFoundation/CoreFoundation.h CoreFoundation/CFBundle.h \
+CoreFoundation/CFString.h CoreFoundation/CFURL.h ctype.h \
+err.h errno.h fcntl.h getopt.h hfs/hfs_format.h hfs/hfs_mount.h \
+libgen.h libkern/OSByteOrder.h mach/thread_status.h machine/endian.h \
+pwd.h removefile.h signal.h sigsegv.h stdio.h System/hfs/hfs_fsctl.h \
+System/sys/fsctl.h System/uuid/uuid.h System/uuid/namespace.h \
+sys/attr.h sys/cdefs.h sys/disk.h sys/fcntl.h sys/ioctl.h \
+sys/loadable_fs.h sys/mount.h sys/param.h sys/resource.h \
+sys/sysctl.h sys/time.h sys/ucred.h sys/vmmeter.h sys/wait.h \
+syslog.h zlib.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -6123,6 +6916,87 @@ $as_echo "#define AC_APPLE_UNIVERSAL_BUILD 1" >>confdefs.h
  presetting ac_cv_c_bigendian=no (or yes) will help" "$LINENO" 5 ;;
  esac
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for an ANSI C-conforming const" >&5
+$as_echo_n "checking for an ANSI C-conforming const... " >&6; }
+if ${ac_cv_c_const+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+#ifndef __cplusplus
+  /* Ultrix mips cc rejects this sort of thing.  */
+  typedef int charset[2];
+  const charset cs = { 0, 0 };
+  /* SunOS 4.1.1 cc rejects this.  */
+  char const *const *pcpcc;
+  char **ppc;
+  /* NEC SVR4.0.2 mips cc rejects this.  */
+  struct point {int x, y;};
+  static struct point const zero = {0,0};
+  /* AIX XL C 1.02.0.0 rejects this.
+     It does not let you subtract one const X* pointer from another in
+     an arm of an if-expression whose if-part is not a constant
+     expression */
+  const char *g = "string";
+  pcpcc = &g + (g ? g-g : 0);
+  /* HPUX 7.0 cc rejects these. */
+  ++pcpcc;
+  ppc = (char**) pcpcc;
+  pcpcc = (char const *const *) ppc;
+  { /* SCO 3.2v4 cc rejects this sort of thing.  */
+    char tx;
+    char *t = &tx;
+    char const *s = 0 ? (char *) 0 : (char const *) 0;
+
+    *t++ = 0;
+    if (s) return 0;
+  }
+  { /* Someone thinks the Sun supposedly-ANSI compiler will reject this.  */
+    int x[] = {25, 17};
+    const int *foo = &x[0];
+    ++foo;
+  }
+  { /* Sun SC1.0 ANSI compiler rejects this -- but not the above. */
+    typedef const int *iptr;
+    iptr p = 0;
+    ++p;
+  }
+  { /* AIX XL C 1.02.0.0 rejects this sort of thing, saying
+       "k.c", line 2.27: 1506-025 (S) Operand must be a modifiable lvalue. */
+    struct s { int j; const int *ap[3]; } bx;
+    struct s *b = &bx; b->j = 5;
+  }
+  { /* ULTRIX-32 V3.1 (Rev 9) vcc rejects this */
+    const int foo = 10;
+    if (!foo) return 0;
+  }
+  return !cs[0] && !zero.x;
+#endif
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_c_const=yes
+else
+  ac_cv_c_const=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_c_const" >&5
+$as_echo "$ac_cv_c_const" >&6; }
+if test $ac_cv_c_const = no; then
+
+$as_echo "#define const /**/" >>confdefs.h
+
+fi
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for inline" >&5
 $as_echo_n "checking for inline... " >&6; }
 if ${ac_cv_c_inline+:} false; then :
@@ -6181,6 +7055,52 @@ else
 $as_echo "no" >&6; }
 fi
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for C/C++ restrict keyword" >&5
+$as_echo_n "checking for C/C++ restrict keyword... " >&6; }
+if ${ac_cv_c_restrict+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_c_restrict=no
+   # The order here caters to the fact that C++ does not require restrict.
+   for ac_kw in __restrict __restrict__ _Restrict restrict; do
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+typedef int * int_ptr;
+	int foo (int_ptr $ac_kw ip) {
+	return ip[0];
+       }
+int
+main ()
+{
+int s[1];
+	int * $ac_kw t = s;
+	t[0] = 0;
+	return foo(t)
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_c_restrict=$ac_kw
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+     test "$ac_cv_c_restrict" != no && break
+   done
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_c_restrict" >&5
+$as_echo "$ac_cv_c_restrict" >&6; }
+
+ case $ac_cv_c_restrict in
+   restrict) ;;
+   no) $as_echo "#define restrict /**/" >>confdefs.h
+ ;;
+   *)  cat >>confdefs.h <<_ACEOF
+#define restrict $ac_cv_c_restrict
+_ACEOF
+ ;;
+ esac
+
 ac_fn_c_find_intX_t "$LINENO" "8" "ac_cv_c_int8_t"
 case $ac_cv_c_int8_t in #(
   no|yes) ;; #(
@@ -6224,6 +7144,142 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 ;;
 esac
+
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for unsigned long long int" >&5
+$as_echo_n "checking for unsigned long long int... " >&6; }
+if ${ac_cv_type_unsigned_long_long_int+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_type_unsigned_long_long_int=yes
+     if test "x${ac_cv_prog_cc_c99-no}" = xno; then
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+  /* For now, do not test the preprocessor; as of 2007 there are too many
+	 implementations with broken preprocessors.  Perhaps this can
+	 be revisited in 2012.  In the meantime, code should not expect
+	 #if to work with literals wider than 32 bits.  */
+      /* Test literals.  */
+      long long int ll = 9223372036854775807ll;
+      long long int nll = -9223372036854775807LL;
+      unsigned long long int ull = 18446744073709551615ULL;
+      /* Test constant expressions.   */
+      typedef int a[((-9223372036854775807LL < 0 && 0 < 9223372036854775807ll)
+		     ? 1 : -1)];
+      typedef int b[(18446744073709551615ULL <= (unsigned long long int) -1
+		     ? 1 : -1)];
+      int i = 63;
+int
+main ()
+{
+/* Test availability of runtime routines for shift and division.  */
+      long long int llmax = 9223372036854775807ll;
+      unsigned long long int ullmax = 18446744073709551615ull;
+      return ((ll << 63) | (ll >> 63) | (ll < i) | (ll > i)
+	      | (llmax / ll) | (llmax % ll)
+	      | (ull << 63) | (ull >> 63) | (ull << i) | (ull >> i)
+	      | (ullmax / ull) | (ullmax % ull));
+  ;
+  return 0;
+}
+
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+
+else
+  ac_cv_type_unsigned_long_long_int=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+     fi
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_type_unsigned_long_long_int" >&5
+$as_echo "$ac_cv_type_unsigned_long_long_int" >&6; }
+  if test $ac_cv_type_unsigned_long_long_int = yes; then
+
+$as_echo "#define HAVE_UNSIGNED_LONG_LONG_INT 1" >>confdefs.h
+
+  fi
+
+
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for long long int" >&5
+$as_echo_n "checking for long long int... " >&6; }
+if ${ac_cv_type_long_long_int+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_type_long_long_int=yes
+      if test "x${ac_cv_prog_cc_c99-no}" = xno; then
+	ac_cv_type_long_long_int=$ac_cv_type_unsigned_long_long_int
+	if test $ac_cv_type_long_long_int = yes; then
+	  	  	  	  if test "$cross_compiling" = yes; then :
+  :
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <limits.h>
+		 #ifndef LLONG_MAX
+		 # define HALF \
+			  (1LL << (sizeof (long long int) * CHAR_BIT - 2))
+		 # define LLONG_MAX (HALF - 1 + HALF)
+		 #endif
+int
+main ()
+{
+long long int n = 1;
+		 int i;
+		 for (i = 0; ; i++)
+		   {
+		     long long int m = n << i;
+		     if (m >> i != n)
+		       return 1;
+		     if (LLONG_MAX / 2 < m)
+		       break;
+		   }
+		 return 0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+
+else
+  ac_cv_type_long_long_int=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+	fi
+      fi
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_type_long_long_int" >&5
+$as_echo "$ac_cv_type_long_long_int" >&6; }
+  if test $ac_cv_type_long_long_int = yes; then
+
+$as_echo "#define HAVE_LONG_LONG_INT 1" >>confdefs.h
+
+  fi
+
+
+
+  ac_fn_c_check_type "$LINENO" "intmax_t" "ac_cv_type_intmax_t" "$ac_includes_default"
+if test "x$ac_cv_type_intmax_t" = xyes; then :
+
+$as_echo "#define HAVE_INTMAX_T 1" >>confdefs.h
+
+else
+  test $ac_cv_type_long_long_int = yes \
+       && ac_type='long long int' \
+       || ac_type='long int'
+
+cat >>confdefs.h <<_ACEOF
+#define intmax_t $ac_type
+_ACEOF
+
+fi
+
 
 ac_fn_c_check_type "$LINENO" "off_t" "ac_cv_type_off_t" "$ac_includes_default"
 if test "x$ac_cv_type_off_t" = xyes; then :
@@ -6333,6 +7389,25 @@ _ACEOF
 ;;
   esac
 
+
+
+  ac_fn_c_check_type "$LINENO" "uintmax_t" "ac_cv_type_uintmax_t" "$ac_includes_default"
+if test "x$ac_cv_type_uintmax_t" = xyes; then :
+
+$as_echo "#define HAVE_UINTMAX_T 1" >>confdefs.h
+
+else
+  test $ac_cv_type_unsigned_long_long_int = yes \
+       && ac_type='unsigned long long int' \
+       || ac_type='unsigned long int'
+
+cat >>confdefs.h <<_ACEOF
+#define uintmax_t $ac_type
+_ACEOF
+
+fi
+
+
 ac_fn_c_check_type "$LINENO" "caddr_t" "ac_cv_type_caddr_t" "$ac_includes_default"
 if test "x$ac_cv_type_caddr_t" = xyes; then :
 
@@ -6343,6 +7418,527 @@ _ACEOF
 
 fi
 
+ac_fn_c_check_type "$LINENO" "sigsegv_handler_t" "ac_cv_type_sigsegv_handler_t" "$ac_includes_default"
+if test "x$ac_cv_type_sigsegv_handler_t" = xyes; then :
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_SIGSEGV_HANDLER_T 1
+_ACEOF
+
+
+fi
+
+ac_fn_c_check_type "$LINENO" "unsigned long" "ac_cv_type_unsigned_long" "$ac_includes_default"
+if test "x$ac_cv_type_unsigned_long" = xyes; then :
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_UNSIGNED_LONG 1
+_ACEOF
+
+
+fi
+
+ac_fn_c_check_decl "$LINENO" "devname" "ac_cv_have_decl_devname" "$ac_includes_default"
+if test "x$ac_cv_have_decl_devname" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_DEVNAME $ac_have_decl
+_ACEOF
+
+ac_fn_c_check_decl "$LINENO" "index" "ac_cv_have_decl_index" "$ac_includes_default"
+if test "x$ac_cv_have_decl_index" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_INDEX $ac_have_decl
+_ACEOF
+
+ac_fn_c_check_decl "$LINENO" "st" "ac_cv_have_decl_st" "$ac_includes_default"
+if test "x$ac_cv_have_decl_st" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_ST $ac_have_decl
+_ACEOF
+
+# Make sure we can run config.sub.
+$SHELL "$ac_aux_dir/config.sub" sun4 >/dev/null 2>&1 ||
+  as_fn_error $? "cannot run $SHELL $ac_aux_dir/config.sub" "$LINENO" 5
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking build system type" >&5
+$as_echo_n "checking build system type... " >&6; }
+if ${ac_cv_build+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_build_alias=$build_alias
+test "x$ac_build_alias" = x &&
+  ac_build_alias=`$SHELL "$ac_aux_dir/config.guess"`
+test "x$ac_build_alias" = x &&
+  as_fn_error $? "cannot guess build type; you must specify one" "$LINENO" 5
+ac_cv_build=`$SHELL "$ac_aux_dir/config.sub" $ac_build_alias` ||
+  as_fn_error $? "$SHELL $ac_aux_dir/config.sub $ac_build_alias failed" "$LINENO" 5
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_build" >&5
+$as_echo "$ac_cv_build" >&6; }
+case $ac_cv_build in
+*-*-*) ;;
+*) as_fn_error $? "invalid value of canonical build" "$LINENO" 5;;
+esac
+build=$ac_cv_build
+ac_save_IFS=$IFS; IFS='-'
+set x $ac_cv_build
+shift
+build_cpu=$1
+build_vendor=$2
+shift; shift
+# Remember, the first character of IFS is used to create $*,
+# except with old shells:
+build_os=$*
+IFS=$ac_save_IFS
+case $build_os in *\ *) build_os=`echo "$build_os" | sed 's/ /-/g'`;; esac
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking host system type" >&5
+$as_echo_n "checking host system type... " >&6; }
+if ${ac_cv_host+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "x$host_alias" = x; then
+  ac_cv_host=$ac_cv_build
+else
+  ac_cv_host=`$SHELL "$ac_aux_dir/config.sub" $host_alias` ||
+    as_fn_error $? "$SHELL $ac_aux_dir/config.sub $host_alias failed" "$LINENO" 5
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_host" >&5
+$as_echo "$ac_cv_host" >&6; }
+case $ac_cv_host in
+*-*-*) ;;
+*) as_fn_error $? "invalid value of canonical host" "$LINENO" 5;;
+esac
+host=$ac_cv_host
+ac_save_IFS=$IFS; IFS='-'
+set x $ac_cv_host
+shift
+host_cpu=$1
+host_vendor=$2
+shift; shift
+# Remember, the first character of IFS is used to create $*,
+# except with old shells:
+host_os=$*
+IFS=$ac_save_IFS
+case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
+
+
+
+
+
+  for ac_func in $ac_func_list
+do :
+  as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
+ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
+if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
+  cat >>confdefs.h <<_ACEOF
+#define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
+_ACEOF
+
+fi
+done
+
+
+
+
+
+
+  for ac_header in $ac_header_list
+do :
+  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+ac_fn_c_check_header_compile "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default
+"
+if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
+  cat >>confdefs.h <<_ACEOF
+#define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
+_ACEOF
+
+fi
+
+done
+
+
+
+
+
+
+
+
+            case "$host_os" in
+     sunos4* | freebsd* | dragonfly* | openbsd* | mirbsd* | netbsd* | kfreebsd* | knetbsd*) # BSD systems
+       FAULT_YIELDS_SIGBUS=1 ;;
+     hpux*) # HP-UX
+       FAULT_YIELDS_SIGBUS=1 ;;
+     macos* | darwin*) # Mac OS X
+       FAULT_YIELDS_SIGBUS=1 ;;
+     gnu*) # Hurd
+       FAULT_YIELDS_SIGBUS=1 ;;
+     *)
+       FAULT_YIELDS_SIGBUS=0 ;;
+   esac
+
+cat >>confdefs.h <<_ACEOF
+#define FAULT_YIELDS_SIGBUS $FAULT_YIELDS_SIGBUS
+_ACEOF
+
+
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for working C stack overflow detection" >&5
+$as_echo_n "checking for working C stack overflow detection... " >&6; }
+if ${ac_cv_sys_stack_overflow_works+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "$cross_compiling" = yes; then :
+  ac_cv_sys_stack_overflow_works=cross-compiling
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+            #include <unistd.h>
+            #include <signal.h>
+            #if HAVE_SETRLIMIT
+            # include <sys/types.h>
+            # include <sys/time.h>
+            # include <sys/resource.h>
+            #endif
+            #ifndef SIGSTKSZ
+            # define SIGSTKSZ 16384
+            #endif
+
+            static union
+            {
+              char buffer[2 * SIGSTKSZ];
+              long double ld;
+              long u;
+              void *p;
+            } alternate_signal_stack;
+
+            static void
+            segv_handler (int signo)
+            {
+              _exit (0);
+            }
+
+            static int
+            c_stack_action ()
+            {
+              stack_t st;
+              struct sigaction act;
+              int r;
+
+              st.ss_flags = 0;
+              /* Use the midpoint to avoid Irix sigaltstack bug.  */
+              st.ss_sp = alternate_signal_stack.buffer + SIGSTKSZ;
+              st.ss_size = SIGSTKSZ;
+              r = sigaltstack (&st, 0);
+              if (r != 0)
+                return 1;
+
+              sigemptyset (&act.sa_mask);
+              act.sa_flags = SA_NODEFER | SA_ONSTACK | SA_RESETHAND;
+              act.sa_handler = segv_handler;
+              #if FAULT_YIELDS_SIGBUS
+              if (sigaction (SIGBUS, &act, 0) < 0)
+                return 2;
+              #endif
+              if (sigaction (SIGSEGV, &act, 0) < 0)
+                return 3;
+              return 0;
+            }
+            static volatile int *
+            recurse_1 (volatile int n, volatile int *p)
+            {
+              if (n >= 0)
+                *recurse_1 (n + 1, p) += n;
+              return p;
+            }
+            static int
+            recurse (volatile int n)
+            {
+              int sum = 0;
+              return *recurse_1 (n, &sum);
+            }
+            int
+            main ()
+            {
+              int result;
+              #if HAVE_SETRLIMIT && defined RLIMIT_STACK
+              /* Before starting the endless recursion, try to be friendly
+                 to the user's machine.  On some Linux 2.2.x systems, there
+                 is no stack limit for user processes at all.  We don't want
+                 to kill such systems.  */
+              struct rlimit rl;
+              rl.rlim_cur = rl.rlim_max = 0x100000; /* 1 MB */
+              setrlimit (RLIMIT_STACK, &rl);
+              #endif
+
+              result = c_stack_action ();
+              if (result != 0)
+                return result;
+              return recurse (0);
+            }
+
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  ac_cv_sys_stack_overflow_works=yes
+else
+  ac_cv_sys_stack_overflow_works=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sys_stack_overflow_works" >&5
+$as_echo "$ac_cv_sys_stack_overflow_works" >&6; }
+
+  if test $ac_cv_sys_stack_overflow_works = yes; then
+
+$as_echo "#define HAVE_STACK_OVERFLOW_HANDLING 1" >>confdefs.h
+
+
+                { $as_echo "$as_me:${as_lineno-$LINENO}: checking for correct stack_t interpretation" >&5
+$as_echo_n "checking for correct stack_t interpretation... " >&6; }
+if ${gl_cv_sigaltstack_low_base+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+      if test "$cross_compiling" = yes; then :
+  gl_cv_sigaltstack_low_base=cross-compiling
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+#include <stdlib.h>
+#include <signal.h>
+#if HAVE_SYS_SIGNAL_H
+# include <sys/signal.h>
+#endif
+#ifndef SIGSTKSZ
+# define SIGSTKSZ 16384
+#endif
+volatile char *stack_lower_bound;
+volatile char *stack_upper_bound;
+static void check_stack_location (volatile char *addr)
+{
+  if (addr >= stack_lower_bound && addr <= stack_upper_bound)
+    exit (0);
+  else
+    exit (1);
+}
+static void stackoverflow_handler (int sig)
+{
+  char dummy;
+  check_stack_location (&dummy);
+}
+int main ()
+{
+  char mystack[2 * SIGSTKSZ];
+  stack_t altstack;
+  struct sigaction action;
+  /* Install the alternate stack.  */
+  altstack.ss_sp = mystack + SIGSTKSZ;
+  altstack.ss_size = SIGSTKSZ;
+  stack_lower_bound = (char *) altstack.ss_sp;
+  stack_upper_bound = (char *) altstack.ss_sp + altstack.ss_size - 1;
+  altstack.ss_flags = 0; /* no SS_DISABLE */
+  if (sigaltstack (&altstack, NULL) < 0)
+    exit (2);
+  /* Install the SIGSEGV handler.  */
+  sigemptyset (&action.sa_mask);
+  action.sa_handler = &stackoverflow_handler;
+  action.sa_flags = SA_ONSTACK;
+  if (sigaction (SIGSEGV, &action, (struct sigaction *) NULL) < 0)
+    exit(3);
+  /* Provoke a SIGSEGV.  */
+  raise (SIGSEGV);
+  exit (4);
+}
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  gl_cv_sigaltstack_low_base=yes
+else
+  gl_cv_sigaltstack_low_base=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_sigaltstack_low_base" >&5
+$as_echo "$gl_cv_sigaltstack_low_base" >&6; }
+   if test "$gl_cv_sigaltstack_low_base" = no; then
+
+$as_echo "#define SIGALTSTACK_SS_REVERSED 1" >>confdefs.h
+
+    fi
+
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for precise C stack overflow detection" >&5
+$as_echo_n "checking for precise C stack overflow detection... " >&6; }
+if ${ac_cv_sys_xsi_stack_overflow_heuristic+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "$cross_compiling" = yes; then :
+  ac_cv_sys_xsi_stack_overflow_heuristic=cross-compiling
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+            #include <unistd.h>
+            #include <signal.h>
+            #if HAVE_UCONTEXT_H
+            # include <ucontext.h>
+            #endif
+            #if HAVE_SETRLIMIT
+            # include <sys/types.h>
+            # include <sys/time.h>
+            # include <sys/resource.h>
+            #endif
+            #ifndef SIGSTKSZ
+            # define SIGSTKSZ 16384
+            #endif
+
+            static union
+            {
+              char buffer[2 * SIGSTKSZ];
+              long double ld;
+              long u;
+              void *p;
+            } alternate_signal_stack;
+
+            #if STACK_DIRECTION
+            # define find_stack_direction(ptr) STACK_DIRECTION
+            #else
+            static int
+            find_stack_direction (char const *addr)
+            {
+              char dummy;
+              return (! addr ? find_stack_direction (&dummy)
+                      : addr < &dummy ? 1 : -1);
+            }
+            #endif
+
+            static void
+            segv_handler (int signo, siginfo_t *info, void *context)
+            {
+              if (0 < info->si_code)
+                {
+                  /* For XSI heuristics to work, we need uc_stack to describe
+                     the interrupted stack (as on Solaris), and not the
+                     currently executing stack (as on Linux).  */
+                  ucontext_t const *user_context = context;
+                  char const *stack_min = user_context->uc_stack.ss_sp;
+                  size_t stack_size = user_context->uc_stack.ss_size;
+                  char const *faulting_address = info->si_addr;
+                  size_t s = faulting_address - stack_min;
+                  size_t page_size = sysconf (_SC_PAGESIZE);
+                  if (find_stack_direction (0) < 0)
+                    s += page_size;
+                  if (s < stack_size + page_size)
+                    _exit (0);
+                  _exit (4);
+                }
+              _exit (5);
+            }
+
+            static int
+            c_stack_action ()
+            {
+              stack_t st;
+              struct sigaction act;
+              int r;
+
+              st.ss_flags = 0;
+              /* Use the midpoint to avoid Irix sigaltstack bug.  */
+              st.ss_sp = alternate_signal_stack.buffer + SIGSTKSZ;
+              st.ss_size = SIGSTKSZ;
+              r = sigaltstack (&st, 0);
+              if (r != 0)
+                return 1;
+
+              sigemptyset (&act.sa_mask);
+              act.sa_flags = SA_NODEFER | SA_ONSTACK | SA_RESETHAND | SA_SIGINFO;
+              act.sa_sigaction = segv_handler;
+              #if FAULT_YIELDS_SIGBUS
+              if (sigaction (SIGBUS, &act, 0) < 0)
+                return 2;
+              #endif
+              if (sigaction (SIGSEGV, &act, 0) < 0)
+                return 3;
+              return 0;
+            }
+            static volatile int *
+            recurse_1 (volatile int n, volatile int *p)
+            {
+              if (n >= 0)
+                *recurse_1 (n + 1, p) += n;
+              return p;
+            }
+            static int
+            recurse (volatile int n)
+            {
+              int sum = 0;
+              return *recurse_1 (n, &sum);
+            }
+            int
+            main ()
+            {
+              int result;
+              #if HAVE_SETRLIMIT && defined RLIMIT_STACK
+              /* Before starting the endless recursion, try to be friendly
+                 to the user's machine.  On some Linux 2.2.x systems, there
+                 is no stack limit for user processes at all.  We don't want
+                 to kill such systems.  */
+              struct rlimit rl;
+              rl.rlim_cur = rl.rlim_max = 0x100000; /* 1 MB */
+              setrlimit (RLIMIT_STACK, &rl);
+              #endif
+
+              result = c_stack_action ();
+              if (result != 0)
+                return result;
+              return recurse (0);
+            }
+
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  ac_cv_sys_xsi_stack_overflow_heuristic=yes
+else
+  ac_cv_sys_xsi_stack_overflow_heuristic=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_sys_xsi_stack_overflow_heuristic" >&5
+$as_echo "$ac_cv_sys_xsi_stack_overflow_heuristic" >&6; }
+
+   if test $ac_cv_sys_xsi_stack_overflow_heuristic = yes; then
+
+$as_echo "#define HAVE_XSI_STACK_OVERFLOW_HEURISTIC 1" >>confdefs.h
+
+   fi
+  fi
 
 # Checks for library functions.
 for ac_header in vfork.h
@@ -6754,9 +8350,9 @@ $as_echo "#define realloc rpl_realloc" >>confdefs.h
 fi
 
 
-for ac_func in fprintf fstat ftruncate getmntinfo ioctl memmove memset \
-mkdir printf snprintf stat strcmp strdup strerror strstr strtol strtoul \
-strtoull syslog
+for ac_func in fprintf fstat ftruncate getenv getmntinfo getopt ioctl \
+memmove memset mkdir printf sigsegv_init snprintf stat strcmp strdup \
+strerror strlen strstr strtol strtoul strtoull syslog
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"

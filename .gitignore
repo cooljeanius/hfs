@@ -1,0 +1,7 @@
+*.log
+build/*
+*.build
+*.o
+*.dSYM
+*.pbxuser
+*.perspectivev3

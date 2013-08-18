@@ -16,9 +16,8 @@ HFILES = CFStub.h
 
 CFILES = hfs_japanese.c JapaneseConverter.c
 
-OTHERSRCS = Makefile.preamble Makefile Makefile.postamble\
+OTHERSRCS = Makefile.preamble Makefile Makefile.postamble \
             CustomInfo.xml
-
 
 MAKEFILEDIR = $(MAKEFILEPATH)/pb_makefiles
 CODE_GEN_STYLE = DYNAMIC
@@ -29,10 +28,10 @@ DEBUG_LIBS = $(LIBS)
 PROF_LIBS = $(LIBS)
 
 
-NEXTSTEP_PB_CFLAGS = -Wno-format -Wno-four-char-constants
+NEXTSTEP_PB_CFLAGS = -Wno-format -Wno-four-char-constants -g -O2
 
 
-NEXTSTEP_OBJCPLUS_COMPILER = /usr/bin/cc
+NEXTSTEP_OBJCPLUS_COMPILER = gcc-4.2
 WINDOWS_OBJCPLUS_COMPILER = $(DEVDIR)/gcc
 PDO_UNIX_OBJCPLUS_COMPILER = $(NEXTDEV_BIN)/gcc
 NEXTSTEP_JAVA_COMPILER = /usr/bin/javac

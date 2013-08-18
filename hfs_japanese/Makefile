@@ -14,7 +14,7 @@ PROJECT_TYPE = Kernel Extension
 
 TOOLS = hfs_japanese.kmodproj
 
-OTHERSRCS = Makefile.preamble Makefile Makefile.postamble\
+OTHERSRCS = Makefile.preamble Makefile Makefile.postamble \
             CustomInfo.xml
 
 MAKEFILEDIR = $(MAKEFILEPATH)/pb_makefiles
@@ -27,9 +27,7 @@ PROF_LIBS = $(LIBS)
 BUNDLE_EXTENSION = kext
 
 
-
-
-NEXTSTEP_OBJCPLUS_COMPILER = /usr/bin/cc
+NEXTSTEP_OBJCPLUS_COMPILER = gcc-4.2
 NEXTSTEP_JAVA_COMPILER = /usr/bin/javac
 
 include $(MAKEFILEDIR)/platform.make

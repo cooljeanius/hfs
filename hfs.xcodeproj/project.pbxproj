@@ -464,6 +464,8 @@
 		1DEB928708733DD80010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_EXCEPTIONS = NO;
+				GENERATE_PROFILING_CODE = NO;
 				INSTALL_PATH = /System/Library/Filesystems/hfs.fs;
 				PRODUCT_NAME = hfs.util;
 			};
@@ -513,7 +515,6 @@
 					"-read_only_relocs",
 					suppress,
 				);
-				PROVISIONING_PROFILE = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -544,6 +545,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_EXCEPTIONS = NO;
+				GENERATE_PROFILING_CODE = NO;
 				INSTALL_PATH = /System/Library/Filesystems/hfs.fs/Contents/Resources;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

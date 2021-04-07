@@ -16,3 +16,7 @@ Makefile
 hfs_japanese/Makefile
 hfs_japanese/hfs_japanese.kmodproj/Makefile
 stamp-h*
+*.xcuserstate
+*.xcworkspacedata
+*/xcuserdata/*
+*.xcuserdatad

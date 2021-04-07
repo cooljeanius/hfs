@@ -1,18 +1,18 @@
 dnl#                                               -*- Autoconf -*-
 dnl# Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.70])
 AC_INIT([hfs],[195.1.1],[/dev/null])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([foreign dist-bzip2 dist-zip tar-pax -Wall])
 AM_MAINTAINER_MODE
 AC_GET_MACOSX_VERSION
 
 # Checks for programs.
 AC_PROG_CC
-AC_PROG_CC_C99
 AC_PROG_OBJC
 AC_PROG_OBJCPP
 AC_PROG_OBJCXX
@@ -29,6 +29,7 @@ MP_CHECK_FRAMEWORK_COREFOUNDATION
 MP_CHECK_FRAMEWORK_IOKIT
 
 # Checks for header files.
+AC_HEADER_STDBOOL dnl# also "_CHECK"s it
 AC_CHECK_HEADERS([architecture/byte_order.h CommonCrypto/CommonDigest.h \
 CoreFoundation/CoreFoundation.h CoreFoundation/CFBundle.h \
 CoreFoundation/CFString.h CoreFoundation/CFURL.h ctype.h \
@@ -39,10 +40,14 @@ System/sys/fsctl.h System/uuid/uuid.h System/uuid/namespace.h \
 sys/attr.h sys/cdefs.h sys/disk.h sys/fcntl.h sys/ioctl.h \
 sys/loadable_fs.h sys/mount.h sys/param.h sys/resource.h \
 sys/sysctl.h sys/time.h sys/ucred.h sys/vmmeter.h sys/wait.h \
-syslog.h zlib.h])
+syslog.h zlib.h])dnl
+
+if test "x${ac_cv_header_unistd_h}" = "x"; then
+  test -z "${ac_cv_header_unistd_h}"
+  AC_CHECK_HEADERS([unistd.h])
+fi
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_CHECK_HEADER_STDBOOL
 AC_C_BIGENDIAN
 AC_C_CONST
 AC_C_INLINE
@@ -78,8 +83,9 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([fprintf fstat ftruncate getenv getmntinfo getopt ioctl \
 memmove memset mkdir printf sigsegv_init snprintf stat strcmp strdup \
-strerror strlen strstr strtol strtoul strtoull syslog])
+strerror strlen strstr strtol strtoul strtoull syslog])dnl
 
+# Output.
 AC_CONFIG_FILES([Makefile
                  hfs_japanese/Makefile
                  hfs_japanese/hfs_japanese.kmodproj/Makefile])
